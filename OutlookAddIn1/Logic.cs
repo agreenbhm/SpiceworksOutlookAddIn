@@ -63,8 +63,9 @@ namespace OutlookAddIn1
             }
         }
 
-        public static Outlook.MailItem GetMailItem(RibbonControlEventArgs e)
+        public static List<Outlook.MailItem> GetMailItem(RibbonControlEventArgs e)
         {
+            List<Outlook.MailItem> returnList = new List<Outlook.MailItem>();
             // Check to see if an item is selected in explorer or we are in inspector.
             if (e.Control.Context is Outlook.Inspector)
             {
@@ -72,7 +73,9 @@ namespace OutlookAddIn1
 
                 if (inspector.CurrentItem is Outlook.MailItem)
                 {
-                    return inspector.CurrentItem as Outlook.MailItem;
+                    returnList.Add(inspector.CurrentItem as Outlook.MailItem);
+                    //return inspector.CurrentItem as Outlook.MailItem;
+                    return returnList;
                 }
             }
 
@@ -81,18 +84,32 @@ namespace OutlookAddIn1
                 Outlook.Explorer explorer = (Outlook.Explorer)e.Control.Context;
 
                 Outlook.Selection selectedItems = explorer.Selection;
-                if (selectedItems.Count != 1)
+                if (selectedItems.Count == 0)
                 {
-                    return null;
+                    return returnList;
                 }
-
-                if (selectedItems[1] is Outlook.MailItem)
+                else if(selectedItems.Count == 1)
                 {
-                    return selectedItems[1] as Outlook.MailItem;
+                    if (selectedItems[1] is Outlook.MailItem)
+                    {
+                        returnList.Add(selectedItems[1] as Outlook.MailItem);
+                    }
+                    return returnList;
+                }
+                else
+                {
+                    foreach(var item in selectedItems)
+                    {
+                        if(item is Outlook.MailItem)
+                        {
+                            returnList.Add(item as Outlook.MailItem);
+                        }
+                    }
+                    return returnList;
                 }
             }
 
-            return null;
+            return returnList;
         }
 
         public static void ForwardMessage(Outlook.MailItem mailItem)
@@ -102,8 +119,8 @@ namespace OutlookAddIn1
                 string recipient = Properties.Settings.Default.HelpdeskEmail;
                 if (recipient == "" || recipient == null)
                 {
-                    MessageBox.Show("Unable to forward message to Spiceworks; Please check that 'Helpdesk Email' is set in Settings"
-                        , "Spiceworks: Error Forwarding", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Unable to forward message to Spiceworks. Please check that 'Helpdesk Email' is set in Settings."
+                        , "Spiceworks Outlook AddIn", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
@@ -112,60 +129,76 @@ namespace OutlookAddIn1
                         Outlook.MailItem newMsg = mailItem.Forward();
                         newMsg.Subject = mailItem.Subject;
                         newMsg.Body += "#created by " + GetSenderSMTPAddress(mailItem);
-
-                        //newMsg.Recipients.Add("itsupport@tjtpa.com");
                         newMsg.Recipients.Add(recipient);
                         newMsg.Send();
                     }
                     catch
                     {
-                        MessageBox.Show("Unable to forward message to Spiceworks; Please check that 'Helpdesk Email' is set in Settings"
-                        , "Spiceworks: Error Forwarding", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Unable to forward message to Spiceworks. Please check that 'Helpdesk Email' is set in Settings."
+                        , "Spiceworks Outlook AddIn", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
             }
         }
 
-        public static DialogResult InputBox(string title, string promptText, ref string value)
+        public static void CloseTicket(Outlook.MailItem mailItem)
         {
-            Form form = new Form();
-            Label label = new Label();
-            TextBox textBox = new TextBox();
-            Button buttonOk = new Button();
-            Button buttonCancel = new Button();
-
-            form.Text = title;
-            label.Text = promptText;
-            textBox.Text = value;
-
-            buttonOk.Text = "OK";
-            buttonCancel.Text = "Cancel";
-            buttonOk.DialogResult = DialogResult.OK;
-            buttonCancel.DialogResult = DialogResult.Cancel;
-
-            label.SetBounds(9, 20, 372, 13);
-            textBox.SetBounds(12, 36, 372, 20);
-            buttonOk.SetBounds(228, 72, 75, 23);
-            buttonCancel.SetBounds(309, 72, 75, 23);
-
-            label.AutoSize = true;
-            textBox.Anchor = textBox.Anchor | AnchorStyles.Right;
-            buttonOk.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            buttonCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-
-            form.ClientSize = new Size(396, 107);
-            form.Controls.AddRange(new Control[] { label, textBox, buttonOk, buttonCancel });
-            form.ClientSize = new Size(Math.Max(300, label.Right + 10), form.ClientSize.Height);
-            form.FormBorderStyle = FormBorderStyle.FixedDialog;
-            form.StartPosition = FormStartPosition.CenterScreen;
-            form.MinimizeBox = false;
-            form.MaximizeBox = false;
-            form.AcceptButton = buttonOk;
-            form.CancelButton = buttonCancel;
-
-            DialogResult dialogResult = form.ShowDialog();
-            value = textBox.Text;
-            return dialogResult;
+            if (mailItem != null)
+            {
+                if (!Properties.Settings.Default.NoCloseConf)
+                {
+                    DialogResult confirm = MessageBox.Show("Close Ticket?\nSubject: " + mailItem.Subject,
+                        "Spiceworks Outlook AddIn", MessageBoxButtons.YesNo);
+                    if (confirm == DialogResult.Yes)
+                    {
+                        try
+                        {
+                            Outlook.MailItem newMsg = mailItem.Reply();
+                            newMsg.Body = "#close";
+                            newMsg.Send();
+                        }
+                        catch (Exception e)
+                        {
+                            MessageBox.Show("Unable to close ticket. Error: " + e.ToString()
+                                , "Spiceworks Outlook AddIn", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        Outlook.MailItem newMsg = mailItem.Reply();
+                        newMsg.Body = "#close";
+                        newMsg.Send();
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show("Unable to close ticket. Error: " + e.ToString()
+                            , "Spiceworks Outlook AddIn", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                
+            }
         }
+
+        public static void CloseTicketWithResponse(Outlook.MailItem mailItem)
+        {
+            if (mailItem != null)
+            {
+                try
+                {
+                    Outlook.MailItem newMsg = mailItem.Reply();
+                    newMsg.Body = "\n\n#close" + newMsg.Body;
+                    newMsg.Display();
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("Unable to close ticket. Error: " + e.ToString()
+                        , "Spiceworks Outlook Addin", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
+
     }
 }

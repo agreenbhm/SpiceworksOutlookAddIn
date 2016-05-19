@@ -19,22 +19,37 @@ namespace OutlookAddIn1
 
         private void button1_Click_1(object sender, RibbonControlEventArgs e)
         {
-            Outlook.MailItem mailItem = Logic.GetMailItem(e);
-            Logic.ForwardMessage(mailItem);
+            List<Outlook.MailItem> mailItemList = Logic.GetMailItem(e);
+            foreach(Outlook.MailItem mailItem in mailItemList)
+            {
+                Logic.ForwardMessage(mailItem);
+            }
         }
 
         private void button2_Click_1(object sender, RibbonControlEventArgs e)
         {
-            //string helpdeskEmail = Properties.Settings.Default.HelpdeskEmail;
             settingsFrm settings = new settingsFrm();
             settings.Show();
-            /*
-            if (Logic.InputBox("Spiceworks Email Forwarder", "Helpdesk Email Address:", ref helpdeskEmail) == DialogResult.OK)
+    
+        }
+
+        private void closeButton_Click(object sender, RibbonControlEventArgs e)
+        {
+            List<Outlook.MailItem> mailItemList = Logic.GetMailItem(e);
+            foreach(Outlook.MailItem mailItem in mailItemList)
             {
-                Properties.Settings.Default.HelpdeskEmail = helpdeskEmail;
-                Properties.Settings.Default.Save();
+                Logic.CloseTicket(mailItem);
             }
-            */
+        }
+
+        private void closeTicketResponse_Click(object sender, RibbonControlEventArgs e)
+        {
+            
+            List<Outlook.MailItem> mailItemList = Logic.GetMailItem(e);
+            foreach(Outlook.MailItem mailItem in mailItemList)
+            {
+                Logic.CloseTicketWithResponse(mailItem);
+            }
         }
     }
 }

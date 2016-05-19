@@ -18,8 +18,11 @@ namespace OutlookAddIn1
 
         private void button1_Click(object sender, RibbonControlEventArgs e)
         {
-            Outlook.MailItem mailItem = Logic.GetMailItem(e);
-            Logic.ForwardMessage(mailItem);
+            List<Outlook.MailItem> mailItemList = Logic.GetMailItem(e);
+            foreach(Outlook.MailItem mailItem in mailItemList)
+            {
+                Logic.ForwardMessage(mailItem);
+            }
         }
 
         

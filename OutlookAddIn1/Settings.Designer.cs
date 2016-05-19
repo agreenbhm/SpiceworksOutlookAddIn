@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(settingsFrm));
             this.helpdeskEmailText = new System.Windows.Forms.TextBox();
             this.helpdeskEmailLabel = new System.Windows.Forms.Label();
             this.assigneeList = new System.Windows.Forms.ListView();
@@ -41,6 +42,7 @@
             this.assignPromptCheckbox = new System.Windows.Forms.CheckBox();
             this.saveButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
+            this.closeMsgCheckbox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // helpdeskEmailText
@@ -146,7 +148,7 @@
             // saveButton
             // 
             this.saveButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.saveButton.Location = new System.Drawing.Point(12, 274);
+            this.saveButton.Location = new System.Drawing.Point(12, 296);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(75, 23);
             this.saveButton.TabIndex = 13;
@@ -157,7 +159,7 @@
             // cancelButton
             // 
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Location = new System.Drawing.Point(358, 274);
+            this.cancelButton.Location = new System.Drawing.Point(358, 296);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 23);
             this.cancelButton.TabIndex = 14;
@@ -165,11 +167,22 @@
             this.cancelButton.UseVisualStyleBackColor = true;
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
             // 
+            // closeMsgCheckbox
+            // 
+            this.closeMsgCheckbox.AutoSize = true;
+            this.closeMsgCheckbox.Location = new System.Drawing.Point(12, 258);
+            this.closeMsgCheckbox.Name = "closeMsgCheckbox";
+            this.closeMsgCheckbox.Size = new System.Drawing.Size(188, 17);
+            this.closeMsgCheckbox.TabIndex = 15;
+            this.closeMsgCheckbox.Text = "Close Message After Assign/Close";
+            this.closeMsgCheckbox.UseVisualStyleBackColor = true;
+            // 
             // settingsFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(447, 312);
+            this.ClientSize = new System.Drawing.Size(447, 341);
+            this.Controls.Add(this.closeMsgCheckbox);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.saveButton);
             this.Controls.Add(this.assignPromptCheckbox);
@@ -183,6 +196,7 @@
             this.Controls.Add(this.assigneeList);
             this.Controls.Add(this.helpdeskEmailLabel);
             this.Controls.Add(this.helpdeskEmailText);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "settingsFrm";
             this.Text = "Spiceworks Outlook AddIn - Settings";
             this.Load += new System.EventHandler(this.settingsFrm_Load);
@@ -206,5 +220,6 @@
         private System.Windows.Forms.CheckBox assignPromptCheckbox;
         private System.Windows.Forms.Button saveButton;
         private System.Windows.Forms.Button cancelButton;
+        private System.Windows.Forms.CheckBox closeMsgCheckbox;
     }
 }

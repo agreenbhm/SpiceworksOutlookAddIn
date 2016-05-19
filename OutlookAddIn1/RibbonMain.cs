@@ -51,5 +51,19 @@ namespace OutlookAddIn1
                 Logic.CloseTicketWithResponse(mailItem);
             }
         }
+
+        private void assignButton_Click(object sender, RibbonControlEventArgs e)
+        {
+            assignFrm assign = new assignFrm();
+            List<Outlook.MailItem> mailItemList = Logic.GetMailItem(e);
+            var result = assign.ShowDialog();
+            if(result == DialogResult.OK)
+            {
+                foreach (Outlook.MailItem mailItem in mailItemList)
+                {
+                    Logic.AssignTicket(mailItem, assign.returnEmail);
+                }
+            }
+        }
     }
 }

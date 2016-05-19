@@ -131,6 +131,10 @@ namespace OutlookAddIn1
                         newMsg.Body += "#created by " + GetSenderSMTPAddress(mailItem);
                         newMsg.Recipients.Add(recipient);
                         newMsg.Send();
+                        if (Properties.Settings.Default.CloseMsg)
+                        {
+                            mailItem.Close(Outlook.OlInspectorClose.olPromptForSave);
+                        }
                     }
                     catch
                     {
@@ -156,6 +160,10 @@ namespace OutlookAddIn1
                             Outlook.MailItem newMsg = mailItem.Reply();
                             newMsg.Body = "#close";
                             newMsg.Send();
+                            if (Properties.Settings.Default.CloseMsg)
+                            {
+                                mailItem.Close(Outlook.OlInspectorClose.olPromptForSave);
+                            }
                         }
                         catch (Exception e)
                         {
@@ -171,6 +179,10 @@ namespace OutlookAddIn1
                         Outlook.MailItem newMsg = mailItem.Reply();
                         newMsg.Body = "#close";
                         newMsg.Send();
+                        if (Properties.Settings.Default.CloseMsg)
+                        {
+                            mailItem.Close(Outlook.OlInspectorClose.olPromptForSave);
+                        }
                     }
                     catch (Exception e)
                     {
@@ -191,12 +203,66 @@ namespace OutlookAddIn1
                     Outlook.MailItem newMsg = mailItem.Reply();
                     newMsg.Body = "\n\n#close" + newMsg.Body;
                     newMsg.Display();
+                    if (Properties.Settings.Default.CloseMsg)
+                    {
+                        mailItem.Close(Outlook.OlInspectorClose.olPromptForSave);
+                    }
                 }
                 catch (Exception e)
                 {
                     MessageBox.Show("Unable to close ticket. Error: " + e.ToString()
                         , "Spiceworks Outlook Addin", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
+            }
+        }
+
+        public static void AssignTicket(Outlook.MailItem mailItem, string email)
+        {
+            if (mailItem != null)
+            {
+                if (!Properties.Settings.Default.NoAssignConf)
+                {
+                    DialogResult confirm = MessageBox.Show("Assign Ticket to " + email + 
+                        "?\nSubject: " + mailItem.Subject, "Spiceworks Outlook AddIn", MessageBoxButtons.YesNo);
+                    if (confirm == DialogResult.Yes)
+                    {
+                        try
+                        {
+                            Outlook.MailItem newMsg = mailItem.Reply();
+                            newMsg.Body = "#assign to " + email;
+                            newMsg.Send();
+                            if (Properties.Settings.Default.CloseMsg)
+                            {
+                                mailItem.Close(Outlook.OlInspectorClose.olPromptForSave);
+                            }
+                            
+                        }
+                        catch (Exception e)
+                        {
+                            MessageBox.Show("Unable to assign ticket. Error: " + e.ToString()
+                                , "Spiceworks Outlook AddIn", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        Outlook.MailItem newMsg = mailItem.Reply();
+                        newMsg.Body = "#assign to " + email;
+                        newMsg.Send();
+                        if (Properties.Settings.Default.CloseMsg)
+                        {
+                            mailItem.Close(Outlook.OlInspectorClose.olPromptForSave);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show("Unable to assign ticket. Error: " + e.ToString()
+                            , "Spiceworks Outlook AddIn", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+
             }
         }
 

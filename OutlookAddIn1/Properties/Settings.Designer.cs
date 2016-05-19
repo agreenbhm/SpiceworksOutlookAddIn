@@ -69,5 +69,17 @@ namespace OutlookAddIn1.Properties {
                 this["NoAssignConf"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool CloseMsg {
+            get {
+                return ((bool)(this["CloseMsg"]));
+            }
+            set {
+                this["CloseMsg"] = value;
+            }
+        }
     }
 }

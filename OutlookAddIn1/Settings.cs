@@ -23,6 +23,7 @@ namespace OutlookAddIn1
             this.helpdeskEmailText.Text = Properties.Settings.Default.HelpdeskEmail;
             this.closePromptCheckbox.Checked = Properties.Settings.Default.NoCloseConf;
             this.assignPromptCheckbox.Checked = Properties.Settings.Default.NoAssignConf;
+            this.closeMsgCheckbox.Checked = Properties.Settings.Default.CloseMsg;
             ColumnHeader header = new ColumnHeader();
             header.Text = "Ticket Assignees";
             header.Name = "ticketAssignees";
@@ -43,6 +44,7 @@ namespace OutlookAddIn1
             Properties.Settings.Default.HelpdeskEmail = this.helpdeskEmailText.Text;
             Properties.Settings.Default.NoCloseConf = this.closePromptCheckbox.Checked;
             Properties.Settings.Default.NoAssignConf = this.assignPromptCheckbox.Checked;
+            Properties.Settings.Default.CloseMsg = this.closeMsgCheckbox.Checked;
             System.Collections.Specialized.StringCollection assigneeStrCollection = 
                 new System.Collections.Specialized.StringCollection();
             foreach(ListViewItem email in this.assigneeList.Items)

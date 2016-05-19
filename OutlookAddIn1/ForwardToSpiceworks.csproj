@@ -155,10 +155,19 @@
     can be found.
   -->
   <ItemGroup>
+    <Compile Include="Assign.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Assign.Designer.cs">
+      <DependentUpon>Assign.cs</DependentUpon>
+    </Compile>
     <Compile Include="Logic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <EmbeddedResource Include="Assign.resx">
+      <DependentUpon>Assign.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -167,6 +176,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="RibbonMain.resx">
       <DependentUpon>RibbonMain.cs</DependentUpon>
@@ -216,6 +226,9 @@
       <DependentUpon>ThisAddIn.Designer.xml</DependentUpon>
     </Compile>
     <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\spiceworks-app_icon.png" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

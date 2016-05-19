@@ -19,12 +19,48 @@ namespace OutlookAddIn1
         private void button1_Click(object sender, RibbonControlEventArgs e)
         {
             List<Outlook.MailItem> mailItemList = Logic.GetMailItem(e);
-            foreach(Outlook.MailItem mailItem in mailItemList)
+            foreach (Outlook.MailItem mailItem in mailItemList)
             {
                 Logic.ForwardMessage(mailItem);
             }
         }
 
-        
+        private void assignButton_Click(object sender, RibbonControlEventArgs e)
+        {
+            assignFrm assign = new assignFrm();
+            List<Outlook.MailItem> mailItemList = Logic.GetMailItem(e);
+            var result = assign.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                foreach (Outlook.MailItem mailItem in mailItemList)
+                {
+                    Logic.AssignTicket(mailItem, assign.returnEmail);
+                }
+            }
+        }
+
+        private void button2_Click(object sender, RibbonControlEventArgs e)
+        {
+            settingsFrm settings = new settingsFrm();
+            settings.Show();
+        }
+
+        private void closeButton_Click(object sender, RibbonControlEventArgs e)
+        {
+            List<Outlook.MailItem> mailItemList = Logic.GetMailItem(e);
+            foreach (Outlook.MailItem mailItem in mailItemList)
+            {
+                Logic.CloseTicket(mailItem);
+            }
+        }
+
+        private void closeTicketResponse_Click(object sender, RibbonControlEventArgs e)
+        {
+            List<Outlook.MailItem> mailItemList = Logic.GetMailItem(e);
+            foreach (Outlook.MailItem mailItem in mailItemList)
+            {
+                Logic.CloseTicketWithResponse(mailItem);
+            }
+        }
     }
 }

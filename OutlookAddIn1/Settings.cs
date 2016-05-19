@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Newtonsoft.Json;
+
 
 namespace OutlookAddIn1
 {
@@ -29,7 +31,7 @@ namespace OutlookAddIn1
             header.Name = "ticketAssignees";
             header.Width = assigneeList.Width;
             assigneeList.Columns.Add(header);
-            if(Properties.Settings.Default.TicketAssignees.Count > 0)
+            if(Properties.Settings.Default.TicketAssignees != null && Properties.Settings.Default.TicketAssignees.Count > 0)
             {
                 foreach (string email in Properties.Settings.Default.TicketAssignees)
                 {
@@ -91,6 +93,43 @@ namespace OutlookAddIn1
             {
                 this.assigneeList.Items.Remove(item);
             }
+        }
+
+        private void exportButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Dictionary<string, dynamic> settingsDict = new Dictionary<string, dynamic>();
+
+                settingsDict.Add("HelpdeskEmail", Properties.Settings.Default.HelpdeskEmail);
+                settingsDict.Add("CloseMsg", Properties.Settings.Default.CloseMsg.ToString());
+                settingsDict.Add("NoAssignConf", Properties.Settings.Default.NoAssignConf.ToString());
+                settingsDict.Add("NoCloseConf", Properties.Settings.Default.NoCloseConf.ToString());
+                settingsDict.Add("TicketAssignees", Properties.Settings.Default.TicketAssignees);
+
+                string settings = JsonConvert.SerializeObject(settingsDict);
+
+                System.Windows.Forms.SaveFileDialog saveDialog = new SaveFileDialog();
+                saveDialog.Filter = "Configuration Files | *.conf";
+                DialogResult result = saveDialog.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    System.IO.Stream fileStream = saveDialog.OpenFile();
+                    System.IO.StreamWriter sw = new System.IO.StreamWriter(fileStream);
+                    sw.Write(settings);
+                    sw.Flush();
+                    sw.Close();
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Unable to export settings."
+                        , "Spiceworks Outlook AddIn: Error Exporting Settings", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            }
+
+
+
         }
     }
 }

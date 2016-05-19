@@ -116,30 +116,67 @@ namespace OutlookAddIn1
         {
             if (mailItem != null)
             {
-                string recipient = Properties.Settings.Default.HelpdeskEmail;
-                if (recipient == "" || recipient == null)
+                if (!Properties.Settings.Default.NoCloseConf)
                 {
-                    MessageBox.Show("Unable to forward message to Spiceworks. Please check that 'Helpdesk Email' is set in Settings."
-                        , "Spiceworks Outlook AddIn", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    DialogResult confirm = MessageBox.Show("Create Ticket?\nSubject: " + mailItem.Subject,
+                        "Spiceworks Outlook AddIn", MessageBoxButtons.YesNo);
+                    if (confirm == DialogResult.Yes)
+                    {
+                        string recipient = Properties.Settings.Default.HelpdeskEmail;
+                        if (recipient == "" || recipient == null)
+                        {
+                            MessageBox.Show("Unable to forward message to Spiceworks. Please check that 'Helpdesk Email' is set in Settings."
+                                , "Spiceworks Outlook AddIn", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else
+                        {
+                            try
+                            {
+                                Outlook.MailItem newMsg = mailItem.Forward();
+                                newMsg.Subject = mailItem.Subject;
+                                newMsg.Body += "\n\n#created by " + Logic.GetSenderSMTPAddress(mailItem);
+                                newMsg.Recipients.Add(recipient);
+                                newMsg.Send();
+                                if (Properties.Settings.Default.CloseMsg)
+                                {
+                                    mailItem.Close(Outlook.OlInspectorClose.olPromptForSave);
+                                }
+                            }
+                            catch
+                            {
+                                MessageBox.Show("Unable to forward message to Spiceworks. Please check that 'Helpdesk Email' is set in Settings."
+                                , "Spiceworks Outlook AddIn", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+                        }
+                    }
                 }
                 else
                 {
-                    try
-                    {
-                        Outlook.MailItem newMsg = mailItem.Forward();
-                        newMsg.Subject = mailItem.Subject;
-                        newMsg.Body += "#created by " + GetSenderSMTPAddress(mailItem);
-                        newMsg.Recipients.Add(recipient);
-                        newMsg.Send();
-                        if (Properties.Settings.Default.CloseMsg)
-                        {
-                            mailItem.Close(Outlook.OlInspectorClose.olPromptForSave);
-                        }
-                    }
-                    catch
+                    string recipient = Properties.Settings.Default.HelpdeskEmail;
+                    if (recipient == "" || recipient == null)
                     {
                         MessageBox.Show("Unable to forward message to Spiceworks. Please check that 'Helpdesk Email' is set in Settings."
-                        , "Spiceworks Outlook AddIn", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            , "Spiceworks Outlook AddIn", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        try
+                        {
+                            Outlook.MailItem newMsg = mailItem.Forward();
+                            newMsg.Subject = mailItem.Subject;
+                            newMsg.Body += "\n\n#created by " + Logic.GetSenderSMTPAddress(mailItem);
+                            newMsg.Recipients.Add(recipient);
+                            newMsg.Send();
+                            if (Properties.Settings.Default.CloseMsg)
+                            {
+                                mailItem.Close(Outlook.OlInspectorClose.olPromptForSave);
+                            }
+                        }
+                        catch
+                        {
+                            MessageBox.Show("Unable to forward message to Spiceworks. Please check that 'Helpdesk Email' is set in Settings."
+                            , "Spiceworks Outlook AddIn", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
                     }
                 }
             }

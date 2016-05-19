@@ -19,51 +19,94 @@ namespace OutlookAddIn1
 
         private void button1_Click_1(object sender, RibbonControlEventArgs e)
         {
-            List<Outlook.MailItem> mailItemList = Logic.GetMailItem(e);
-            foreach(Outlook.MailItem mailItem in mailItemList)
+            try
             {
-                Logic.ForwardMessage(mailItem);
+                List<Outlook.MailItem> mailItemList = Logic.GetMailItem(e);
+                foreach (Outlook.MailItem mailItem in mailItemList)
+                {
+                    Logic.ForwardMessage(mailItem);
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Unable to create ticket. Make sure the helpdesk email address is set in Settings."
+                        , "Spiceworks Outlook AddIn: Error Creating Ticket", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
             }
         }
 
         private void button2_Click_1(object sender, RibbonControlEventArgs e)
         {
-            settingsFrm settings = new settingsFrm();
-            settings.Show();
-    
+            try
+            {
+                settingsFrm settings = new settingsFrm();
+                settings.Show();
+            }
+            catch
+            {
+                MessageBox.Show("Unable to open settings."
+                       , "Spiceworks Outlook AddIn: Error Opening Settings", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            }
+
         }
 
         private void closeButton_Click(object sender, RibbonControlEventArgs e)
         {
-            List<Outlook.MailItem> mailItemList = Logic.GetMailItem(e);
-            foreach(Outlook.MailItem mailItem in mailItemList)
+            try
             {
-                Logic.CloseTicket(mailItem);
+                List<Outlook.MailItem> mailItemList = Logic.GetMailItem(e);
+                foreach (Outlook.MailItem mailItem in mailItemList)
+                {
+                    Logic.CloseTicket(mailItem);
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Unable to close ticket. Make sure helpdesk email address is set in Settings."
+                      , "Spiceworks Outlook AddIn: Error Closing Ticket", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
         private void closeTicketResponse_Click(object sender, RibbonControlEventArgs e)
         {
-            
-            List<Outlook.MailItem> mailItemList = Logic.GetMailItem(e);
-            foreach(Outlook.MailItem mailItem in mailItemList)
+            try
             {
-                Logic.CloseTicketWithResponse(mailItem);
+                List<Outlook.MailItem> mailItemList = Logic.GetMailItem(e);
+                foreach (Outlook.MailItem mailItem in mailItemList)
+                {
+                    Logic.CloseTicketWithResponse(mailItem);
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Unable to close ticket. Make sure helpdesk email address is set in Settings."
+                      , "Spiceworks Outlook AddIn: Error Closing Ticket", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
         private void assignButton_Click(object sender, RibbonControlEventArgs e)
         {
-            assignFrm assign = new assignFrm();
-            List<Outlook.MailItem> mailItemList = Logic.GetMailItem(e);
-            var result = assign.ShowDialog();
-            if(result == DialogResult.OK)
+            try
             {
-                foreach (Outlook.MailItem mailItem in mailItemList)
+                assignFrm assign = new assignFrm();
+                List<Outlook.MailItem> mailItemList = Logic.GetMailItem(e);
+                var result = assign.ShowDialog();
+                if (result == DialogResult.OK)
                 {
-                    Logic.AssignTicket(mailItem, assign.returnEmail);
+                    foreach (Outlook.MailItem mailItem in mailItemList)
+                    {
+                        Logic.AssignTicket(mailItem, assign.returnEmail);
+                    }
                 }
             }
+            catch
+            {
+                MessageBox.Show("Unable to assign ticket. Make sure assignees are added in Settings."
+                        , "Spiceworks Outlook AddIn: Error Assigning Ticket", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            }
+
         }
     }
 }

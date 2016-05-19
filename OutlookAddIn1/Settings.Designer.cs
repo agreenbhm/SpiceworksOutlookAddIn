@@ -43,6 +43,8 @@
             this.saveButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
             this.closeMsgCheckbox = new System.Windows.Forms.CheckBox();
+            this.importButton = new System.Windows.Forms.Button();
+            this.exportButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // helpdeskEmailText
@@ -150,7 +152,7 @@
             this.saveButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.saveButton.Location = new System.Drawing.Point(12, 296);
             this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(75, 23);
+            this.saveButton.Size = new System.Drawing.Size(85, 23);
             this.saveButton.TabIndex = 13;
             this.saveButton.Text = "Save";
             this.saveButton.UseVisualStyleBackColor = true;
@@ -159,9 +161,9 @@
             // cancelButton
             // 
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Location = new System.Drawing.Point(358, 296);
+            this.cancelButton.Location = new System.Drawing.Point(345, 296);
             this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size(75, 23);
+            this.cancelButton.Size = new System.Drawing.Size(88, 23);
             this.cancelButton.TabIndex = 14;
             this.cancelButton.Text = "Cancel";
             this.cancelButton.UseVisualStyleBackColor = true;
@@ -177,11 +179,32 @@
             this.closeMsgCheckbox.Text = "Close Message After Assign/Close";
             this.closeMsgCheckbox.UseVisualStyleBackColor = true;
             // 
+            // importButton
+            // 
+            this.importButton.Location = new System.Drawing.Point(345, 223);
+            this.importButton.Name = "importButton";
+            this.importButton.Size = new System.Drawing.Size(87, 23);
+            this.importButton.TabIndex = 16;
+            this.importButton.Text = "Import Settings";
+            this.importButton.UseVisualStyleBackColor = true;
+            // 
+            // exportButton
+            // 
+            this.exportButton.Location = new System.Drawing.Point(345, 252);
+            this.exportButton.Name = "exportButton";
+            this.exportButton.Size = new System.Drawing.Size(87, 23);
+            this.exportButton.TabIndex = 17;
+            this.exportButton.Text = "Export Settings";
+            this.exportButton.UseVisualStyleBackColor = true;
+            this.exportButton.Click += new System.EventHandler(this.exportButton_Click);
+            // 
             // settingsFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(447, 341);
+            this.Controls.Add(this.exportButton);
+            this.Controls.Add(this.importButton);
             this.Controls.Add(this.closeMsgCheckbox);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.saveButton);
@@ -221,5 +244,7 @@
         private System.Windows.Forms.Button saveButton;
         private System.Windows.Forms.Button cancelButton;
         private System.Windows.Forms.CheckBox closeMsgCheckbox;
+        private System.Windows.Forms.Button importButton;
+        private System.Windows.Forms.Button exportButton;
     }
 }

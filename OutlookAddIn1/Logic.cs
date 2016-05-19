@@ -116,7 +116,7 @@ namespace OutlookAddIn1
         {
             if (mailItem != null)
             {
-                if (!Properties.Settings.Default.NoCloseConf)
+                if (!Properties.Settings.Default.NoForwardConf)
                 {
                     DialogResult confirm = MessageBox.Show("Create Ticket?\nSubject: " + mailItem.Subject,
                         "Spiceworks Outlook AddIn", MessageBoxButtons.YesNo);

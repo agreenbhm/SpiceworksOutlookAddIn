@@ -27,6 +27,7 @@ namespace OutlookAddIn1
             this.closePromptCheckbox.Checked = Properties.Settings.Default.NoCloseConf;
             this.assignPromptCheckbox.Checked = Properties.Settings.Default.NoAssignConf;
             this.closeMsgCheckbox.Checked = Properties.Settings.Default.CloseMsg;
+            this.createPromptCheckbox.Checked = Properties.Settings.Default.NoForwardConf;
             ColumnHeader header = new ColumnHeader();
             header.Text = "Ticket Assignees";
             header.Name = "ticketAssignees";
@@ -48,6 +49,7 @@ namespace OutlookAddIn1
             Properties.Settings.Default.NoCloseConf = this.closePromptCheckbox.Checked;
             Properties.Settings.Default.NoAssignConf = this.assignPromptCheckbox.Checked;
             Properties.Settings.Default.CloseMsg = this.closeMsgCheckbox.Checked;
+            Properties.Settings.Default.NoForwardConf = this.createPromptCheckbox.Checked;
             System.Collections.Specialized.StringCollection assigneeStrCollection = 
                 new System.Collections.Specialized.StringCollection();
             foreach(ListViewItem email in this.assigneeList.Items)
@@ -106,6 +108,7 @@ namespace OutlookAddIn1
                 settingsDict.Add("CloseMsg", Properties.Settings.Default.CloseMsg.ToString());
                 settingsDict.Add("NoAssignConf", Properties.Settings.Default.NoAssignConf.ToString());
                 settingsDict.Add("NoCloseConf", Properties.Settings.Default.NoCloseConf.ToString());
+                settingsDict.Add("NoForwardConf", Properties.Settings.Default.NoForwardConf.ToString());
                 settingsDict.Add("TicketAssignees", Properties.Settings.Default.TicketAssignees);
 
                 string settings = JsonConvert.SerializeObject(settingsDict);
@@ -149,6 +152,7 @@ namespace OutlookAddIn1
                     Properties.Settings.Default.CloseMsg = (bool)settings.GetValue("CloseMsg");
                     Properties.Settings.Default.NoAssignConf = (bool)settings.GetValue("NoAssignConf");
                     Properties.Settings.Default.NoCloseConf = (bool)settings.GetValue("NoCloseConf");
+                    Properties.Settings.Default.NoForwardConf = (bool)settings.GetValue("NoForwardConf");
                     JArray assigneeArray = (JArray)settings.GetValue("TicketAssignees");
                     Properties.Settings.Default.TicketAssignees.Clear();
                     foreach (string assignee in assigneeArray)

@@ -45,6 +45,7 @@
             this.closeMsgCheckbox = new System.Windows.Forms.CheckBox();
             this.importButton = new System.Windows.Forms.Button();
             this.exportButton = new System.Windows.Forms.Button();
+            this.createPromptCheckbox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // helpdeskEmailText
@@ -150,7 +151,7 @@
             // saveButton
             // 
             this.saveButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.saveButton.Location = new System.Drawing.Point(12, 296);
+            this.saveButton.Location = new System.Drawing.Point(12, 322);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(85, 23);
             this.saveButton.TabIndex = 13;
@@ -161,7 +162,7 @@
             // cancelButton
             // 
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Location = new System.Drawing.Point(345, 296);
+            this.cancelButton.Location = new System.Drawing.Point(345, 322);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(88, 23);
             this.cancelButton.TabIndex = 14;
@@ -172,7 +173,7 @@
             // closeMsgCheckbox
             // 
             this.closeMsgCheckbox.AutoSize = true;
-            this.closeMsgCheckbox.Location = new System.Drawing.Point(12, 258);
+            this.closeMsgCheckbox.Location = new System.Drawing.Point(12, 281);
             this.closeMsgCheckbox.Name = "closeMsgCheckbox";
             this.closeMsgCheckbox.Size = new System.Drawing.Size(188, 17);
             this.closeMsgCheckbox.TabIndex = 15;
@@ -199,11 +200,22 @@
             this.exportButton.UseVisualStyleBackColor = true;
             this.exportButton.Click += new System.EventHandler(this.exportButton_Click);
             // 
+            // createPromptCheckbox
+            // 
+            this.createPromptCheckbox.AutoSize = true;
+            this.createPromptCheckbox.Location = new System.Drawing.Point(12, 258);
+            this.createPromptCheckbox.Name = "createPromptCheckbox";
+            this.createPromptCheckbox.Size = new System.Drawing.Size(243, 17);
+            this.createPromptCheckbox.TabIndex = 18;
+            this.createPromptCheckbox.Text = "Don\'t Prompt For \"Create Ticket\" Confirmation";
+            this.createPromptCheckbox.UseVisualStyleBackColor = true;
+            // 
             // settingsFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(447, 341);
+            this.ClientSize = new System.Drawing.Size(447, 367);
+            this.Controls.Add(this.createPromptCheckbox);
             this.Controls.Add(this.exportButton);
             this.Controls.Add(this.importButton);
             this.Controls.Add(this.closeMsgCheckbox);
@@ -247,5 +259,6 @@
         private System.Windows.Forms.CheckBox closeMsgCheckbox;
         private System.Windows.Forms.Button importButton;
         private System.Windows.Forms.Button exportButton;
+        private System.Windows.Forms.CheckBox createPromptCheckbox;
     }
 }

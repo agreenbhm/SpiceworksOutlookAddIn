@@ -1,4 +1,4 @@
-# SpiceworksOutlookAddIn
+# Spiceworks Outlook AddIn
 An Outlook 2013/2016 add-in for performing various actions with Spiceworks tickets.
 
 This add-in allows you to perform various ticket commands quickly from within Outlook.  The current features are:

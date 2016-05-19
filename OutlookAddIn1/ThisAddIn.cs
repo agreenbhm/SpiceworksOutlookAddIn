@@ -15,6 +15,8 @@ namespace OutlookAddIn1
 
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
+            Properties.Settings.Default.LastLaunch = System.DateTime.Now;
+            Properties.Settings.Default.Save();
             inspectors = this.Application.Inspectors;
             inspectors.NewInspector += 
                 new Microsoft.Office.Interop.Outlook.InspectorsEvents_NewInspectorEventHandler(Inspectors_NewInspector);

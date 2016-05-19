@@ -93,5 +93,16 @@ namespace OutlookAddIn1.Properties {
                 this["NoForwardConf"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.DateTime LastLaunch {
+            get {
+                return ((global::System.DateTime)(this["LastLaunch"]));
+            }
+            set {
+                this["LastLaunch"] = value;
+            }
+        }
     }
 }

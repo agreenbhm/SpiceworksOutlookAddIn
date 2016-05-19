@@ -147,14 +147,15 @@ namespace OutlookAddIn1
                 DialogResult result = openDialog.ShowDialog();
                 if (result == DialogResult.OK)
                 {
-                    JObject settings = JObject.Parse(System.IO.File.ReadAllText(@openDialog.FileName));
+                    JObject settings = JObject.Parse(System.IO.File.ReadAllText(openDialog.FileName));
                     Properties.Settings.Default.HelpdeskEmail = settings.GetValue("HelpdeskEmail").ToString();
                     Properties.Settings.Default.CloseMsg = (bool)settings.GetValue("CloseMsg");
                     Properties.Settings.Default.NoAssignConf = (bool)settings.GetValue("NoAssignConf");
                     Properties.Settings.Default.NoCloseConf = (bool)settings.GetValue("NoCloseConf");
                     Properties.Settings.Default.NoForwardConf = (bool)settings.GetValue("NoForwardConf");
+                    Properties.Settings.Default.TicketAssignees = new System.Collections.Specialized.StringCollection();
                     JArray assigneeArray = (JArray)settings.GetValue("TicketAssignees");
-                    Properties.Settings.Default.TicketAssignees.Clear();
+                    //Properties.Settings.Default.TicketAssignees.Clear();
                     foreach (string assignee in assigneeArray)
                     {
                         Properties.Settings.Default.TicketAssignees.Add(assignee);
@@ -167,9 +168,9 @@ namespace OutlookAddIn1
 
 
             }
-            catch
+            catch(Exception error)
             {
-                MessageBox.Show("Unable to export settings."
+                MessageBox.Show("Unable to import settings.\nError: " + error.ToString()
                         , "Spiceworks Outlook AddIn: Error Importing Settings", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             }

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 
 namespace OutlookAddIn1
@@ -120,6 +121,10 @@ namespace OutlookAddIn1
                     sw.Flush();
                     sw.Close();
                 }
+
+                MessageBox.Show("Successfully Exported Settings."
+                       , "Spiceworks Outlook AddIn: Exported Settings", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
             }
             catch
             {
@@ -128,8 +133,42 @@ namespace OutlookAddIn1
 
             }
 
+        }
+
+        private void importButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                System.Windows.Forms.OpenFileDialog openDialog = new OpenFileDialog();
+                openDialog.Filter = "Configuration Files | *.conf";
+                DialogResult result = openDialog.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    JObject settings = JObject.Parse(System.IO.File.ReadAllText(@openDialog.FileName));
+                    Properties.Settings.Default.HelpdeskEmail = settings.GetValue("HelpdeskEmail").ToString();
+                    Properties.Settings.Default.CloseMsg = (bool)settings.GetValue("CloseMsg");
+                    Properties.Settings.Default.NoAssignConf = (bool)settings.GetValue("NoAssignConf");
+                    Properties.Settings.Default.NoCloseConf = (bool)settings.GetValue("NoCloseConf");
+                    JArray assigneeArray = (JArray)settings.GetValue("TicketAssignees");
+                    Properties.Settings.Default.TicketAssignees.Clear();
+                    foreach (string assignee in assigneeArray)
+                    {
+                        Properties.Settings.Default.TicketAssignees.Add(assignee);
+                    }
+                    Properties.Settings.Default.Save();
+                    this.Close();
+                    MessageBox.Show("Successfully Imported Settings."
+                       , "Spiceworks Outlook AddIn: Imported Settings", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
 
 
+            }
+            catch
+            {
+                MessageBox.Show("Unable to export settings."
+                        , "Spiceworks Outlook AddIn: Error Importing Settings", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            }
         }
     }
 }

@@ -187,6 +187,7 @@
             this.importButton.TabIndex = 16;
             this.importButton.Text = "Import Settings";
             this.importButton.UseVisualStyleBackColor = true;
+            this.importButton.Click += new System.EventHandler(this.importButton_Click);
             // 
             // exportButton
             // 

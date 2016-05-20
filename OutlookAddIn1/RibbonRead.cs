@@ -16,6 +16,30 @@ namespace OutlookAddIn1
 
         }
 
+        public void hideButtons(int installType)
+        {
+            if (installType == 1)
+            {
+                try
+                {
+                    this.newTicketButton.Visible = false;
+                }
+                catch { }
+            }
+            else if (installType == 2)
+            {
+                try
+                {
+                    this.button2.Visible = false;
+                    this.assignButton.Visible = false;
+                    this.closeButton.Visible = false;
+                    this.closeTicketResponse.Visible = false;
+                    this.button1.Visible = false;
+                }
+                catch { }
+            }
+        }
+
         private void button1_Click(object sender, RibbonControlEventArgs e)
         {
             try
@@ -104,6 +128,21 @@ namespace OutlookAddIn1
             {
                 MessageBox.Show("Unable to close ticket. Make sure helpdesk email address is set in Settings."
                       , "Spiceworks Outlook AddIn: Error Closing Ticket", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void newTicketButton_Click(object sender, RibbonControlEventArgs e)
+        {
+            try
+            {
+                Outlook.MailItem mailItem = (Outlook.MailItem)
+                    Globals.ThisAddIn.Application.CreateItem(Outlook.OlItemType.olMailItem);
+                mailItem.To = Properties.Settings.Default.HelpdeskEmail;
+                mailItem.Display();
+            }
+            catch
+            {
+
             }
         }
     }

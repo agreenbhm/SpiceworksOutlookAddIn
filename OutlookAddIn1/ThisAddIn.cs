@@ -6,6 +6,7 @@ using System.Xml.Linq;
 using Outlook = Microsoft.Office.Interop.Outlook;
 using Office = Microsoft.Office.Core;
 using System.Windows.Forms;
+using Microsoft.Win32;
 
 namespace OutlookAddIn1
 {
@@ -21,6 +22,50 @@ namespace OutlookAddIn1
             inspectors.NewInspector += 
                 new Microsoft.Office.Interop.Outlook.InspectorsEvents_NewInspectorEventHandler(Inspectors_NewInspector);
 
+            int installType = 1;
+            try
+            {
+                RegistryKey key = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Office\\Outlook\\Addins\\DrewGreen.net.SpiceworksOutlookAddIn");
+                if (key != null)
+                {
+                    object regInstType = key.GetValue("InstallType");
+                    if (regInstType != null)
+                    {
+                        installType = (int)regInstType;
+                    }
+                    else
+                    {
+                        key = Registry.LocalMachine.OpenSubKey("Software\\Microsoft\\Office\\Outlook\\Addins\\DrewGreen.net.SpiceworksOutlookAddIn");
+                        if (key != null)
+                        {
+                            regInstType = key.GetValue("InstallType");
+                            if (regInstType != null)
+                            {
+                                installType = (int)regInstType;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    key = Registry.LocalMachine.OpenSubKey("Software\\Microsoft\\Office\\Outlook\\Addins\\DrewGreen.net.SpiceworksOutlookAddIn");
+                    if (key != null)
+                    {
+                        object regInstType = key.GetValue("InstallType");
+                        if (regInstType != null)
+                        {
+                            installType = (int)regInstType;
+                        }
+                    }
+                }
+            }
+            catch (Exception error)
+            {
+
+            }
+
+            Globals.Ribbons.RibbonRead.hideButtons(installType);
+            Globals.Ribbons.RibbonMain.hideButtons(installType);
         }
 
         void Inspectors_NewInspector(Microsoft.Office.Interop.Outlook.Inspector Inspector)

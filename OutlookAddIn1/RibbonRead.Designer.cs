@@ -42,6 +42,7 @@
             this.closeTicketResponse = this.Factory.CreateRibbonButton();
             this.closeButton = this.Factory.CreateRibbonButton();
             this.button2 = this.Factory.CreateRibbonButton();
+            this.newTicketButton = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.Spiceworks.SuspendLayout();
             this.SuspendLayout();
@@ -61,6 +62,7 @@
             this.Spiceworks.Items.Add(this.closeTicketResponse);
             this.Spiceworks.Items.Add(this.closeButton);
             this.Spiceworks.Items.Add(this.button2);
+            this.Spiceworks.Items.Add(this.newTicketButton);
             this.Spiceworks.Label = "Spiceworks";
             this.Spiceworks.Name = "Spiceworks";
             // 
@@ -109,6 +111,15 @@
             this.button2.ShowImage = true;
             this.button2.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button2_Click);
             // 
+            // newTicketButton
+            // 
+            this.newTicketButton.Image = ((System.Drawing.Image)(resources.GetObject("newTicketButton.Image")));
+            this.newTicketButton.Label = "New Ticket";
+            this.newTicketButton.Name = "newTicketButton";
+            this.newTicketButton.ScreenTip = "Forward message to Spiceworks using \"created by\" ticket command.";
+            this.newTicketButton.ShowImage = true;
+            this.newTicketButton.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.newTicketButton_Click);
+            // 
             // RibbonRead
             // 
             this.Name = "RibbonRead";
@@ -132,6 +143,7 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton assignButton;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton closeTicketResponse;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton closeButton;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton newTicketButton;
     }
 
     partial class ThisRibbonCollection
@@ -140,5 +152,6 @@
         {
             get { return this.GetRibbon<RibbonRead>(); }
         }
+
     }
 }

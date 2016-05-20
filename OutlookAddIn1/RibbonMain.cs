@@ -7,14 +7,39 @@ using Outlook = Microsoft.Office.Interop.Outlook;
 using Office = Microsoft.Office.Core;
 using System.Windows.Forms;
 using System.Drawing;
+using Microsoft.Win32;
 
 namespace OutlookAddIn1
 {
     public partial class RibbonMain
     {
+        public void hideButtons(int installType)
+        {
+            if(installType == 1)
+            {
+                try
+                {
+                    this.newTicketButton.Visible = false;
+                }
+                catch { }
+            }
+            else if(installType == 2)
+            {
+                try
+                {
+                    this.button2.Visible = false;
+                    this.assignButton.Visible = false;
+                    this.closeButton.Visible = false;
+                    this.closeTicketResponse.Visible = false;
+                    this.button1.Visible = false;
+                }
+                catch { }
+            }
+        }
+
         private void Ribbon1_Load(object sender, RibbonUIEventArgs e)
         {
-
+           
         }
 
         private void button1_Click_1(object sender, RibbonControlEventArgs e)
@@ -107,6 +132,20 @@ namespace OutlookAddIn1
 
             }
 
+        }
+
+        private void newTicketButton_Click(object sender, RibbonControlEventArgs e)
+        {
+            try {
+                Outlook.MailItem mailItem = (Outlook.MailItem)
+                    Globals.ThisAddIn.Application.CreateItem(Outlook.OlItemType.olMailItem);
+                mailItem.To = Properties.Settings.Default.HelpdeskEmail;
+                mailItem.Display();
+            }
+            catch
+            {
+
+            }
         }
     }
 }

@@ -38,10 +38,11 @@
             this.tab1 = this.Factory.CreateRibbonTab();
             this.Spiceworks = this.Factory.CreateRibbonGroup();
             this.button1 = this.Factory.CreateRibbonButton();
-            this.button2 = this.Factory.CreateRibbonButton();
-            this.closeButton = this.Factory.CreateRibbonButton();
-            this.closeTicketResponse = this.Factory.CreateRibbonButton();
             this.assignButton = this.Factory.CreateRibbonButton();
+            this.closeTicketResponse = this.Factory.CreateRibbonButton();
+            this.closeButton = this.Factory.CreateRibbonButton();
+            this.button2 = this.Factory.CreateRibbonButton();
+            this.newTicketButton = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.Spiceworks.SuspendLayout();
             this.SuspendLayout();
@@ -61,6 +62,7 @@
             this.Spiceworks.Items.Add(this.closeTicketResponse);
             this.Spiceworks.Items.Add(this.closeButton);
             this.Spiceworks.Items.Add(this.button2);
+            this.Spiceworks.Items.Add(this.newTicketButton);
             this.Spiceworks.Label = "Spiceworks";
             this.Spiceworks.Name = "Spiceworks";
             // 
@@ -73,21 +75,13 @@
             this.button1.ShowImage = true;
             this.button1.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button1_Click_1);
             // 
-            // button2
+            // assignButton
             // 
-            this.button2.Image = global::OutlookAddIn1.Properties.Resources.spiceworks_app_icon;
-            this.button2.Label = "Settings";
-            this.button2.Name = "button2";
-            this.button2.ShowImage = true;
-            this.button2.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button2_Click_1);
-            // 
-            // closeButton
-            // 
-            this.closeButton.Image = ((System.Drawing.Image)(resources.GetObject("closeButton.Image")));
-            this.closeButton.Label = "Close Ticket";
-            this.closeButton.Name = "closeButton";
-            this.closeButton.ShowImage = true;
-            this.closeButton.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.closeButton_Click);
+            this.assignButton.Image = ((System.Drawing.Image)(resources.GetObject("assignButton.Image")));
+            this.assignButton.Label = "Assign";
+            this.assignButton.Name = "assignButton";
+            this.assignButton.ShowImage = true;
+            this.assignButton.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.assignButton_Click);
             // 
             // closeTicketResponse
             // 
@@ -97,13 +91,30 @@
             this.closeTicketResponse.ShowImage = true;
             this.closeTicketResponse.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.closeTicketResponse_Click);
             // 
-            // assignButton
+            // closeButton
             // 
-            this.assignButton.Image = ((System.Drawing.Image)(resources.GetObject("assignButton.Image")));
-            this.assignButton.Label = "Assign";
-            this.assignButton.Name = "assignButton";
-            this.assignButton.ShowImage = true;
-            this.assignButton.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.assignButton_Click);
+            this.closeButton.Image = ((System.Drawing.Image)(resources.GetObject("closeButton.Image")));
+            this.closeButton.Label = "Close Ticket";
+            this.closeButton.Name = "closeButton";
+            this.closeButton.ShowImage = true;
+            this.closeButton.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.closeButton_Click);
+            // 
+            // button2
+            // 
+            this.button2.Image = global::OutlookAddIn1.Properties.Resources.spiceworks_app_icon;
+            this.button2.Label = "Settings";
+            this.button2.Name = "button2";
+            this.button2.ShowImage = true;
+            this.button2.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button2_Click_1);
+            // 
+            // newTicketButton
+            // 
+            this.newTicketButton.Image = ((System.Drawing.Image)(resources.GetObject("newTicketButton.Image")));
+            this.newTicketButton.Label = "New Ticket";
+            this.newTicketButton.Name = "newTicketButton";
+            this.newTicketButton.ScreenTip = "Forward message to Spiceworks using \"created by\" ticket command.";
+            this.newTicketButton.ShowImage = true;
+            this.newTicketButton.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.newTicketButton_Click);
             // 
             // RibbonMain
             // 
@@ -129,11 +140,12 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton closeButton;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton closeTicketResponse;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton assignButton;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton newTicketButton;
     }
 
     partial class ThisRibbonCollection
     {
-        internal RibbonMain Ribbon1
+        internal RibbonMain RibbonMain
         {
             get { return this.GetRibbon<RibbonMain>(); }
         }

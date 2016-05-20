@@ -6,6 +6,7 @@ using Microsoft.Office.Tools.Ribbon;
 using Outlook = Microsoft.Office.Interop.Outlook;
 using Office = Microsoft.Office.Core;
 using System.Windows.Forms;
+using Microsoft.Win32;
 
 namespace OutlookAddIn1
 {
@@ -13,7 +14,48 @@ namespace OutlookAddIn1
     {
         private void RibbonRead_Load(object sender, RibbonUIEventArgs e)
         {
-
+            int installType = 1;
+            try
+            {
+                RegistryKey key = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Office\\Outlook\\Addins\\DrewGreen.net.SpiceworksOutlookAddIn");
+                if (key != null)
+                {
+                    object regInstType = key.GetValue("InstallType");
+                    if (regInstType != null)
+                    {
+                        installType = (int)regInstType;
+                    }
+                    else
+                    {
+                        key = Registry.LocalMachine.OpenSubKey("Software\\Microsoft\\Office\\Outlook\\Addins\\DrewGreen.net.SpiceworksOutlookAddIn");
+                        if (key != null)
+                        {
+                            regInstType = key.GetValue("InstallType");
+                            if (regInstType != null)
+                            {
+                                installType = (int)regInstType;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    key = Registry.LocalMachine.OpenSubKey("Software\\Microsoft\\Office\\Outlook\\Addins\\DrewGreen.net.SpiceworksOutlookAddIn");
+                    if (key != null)
+                    {
+                        object regInstType = key.GetValue("InstallType");
+                        if (regInstType != null)
+                        {
+                            installType = (int)regInstType;
+                        }
+                    }
+                }
+            }
+            catch { }
+            finally
+            {
+                hideButtons(installType);
+            }
         }
 
         public void hideButtons(int installType)

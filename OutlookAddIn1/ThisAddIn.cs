@@ -66,6 +66,33 @@ namespace OutlookAddIn1
 
             Globals.Ribbons.RibbonRead.hideButtons(installType);
             Globals.Ribbons.RibbonMain.hideButtons(installType);
+
+            if (Properties.Settings.Default.HelpdeskEmail == "" || Properties.Settings.Default.HelpdeskEmail == null)
+            {
+                try
+                {
+                    string helpdeskEmail = "";
+                    RegistryKey key = Registry.LocalMachine.OpenSubKey("Software\\Microsoft\\Office\\Outlook\\Addins\\DrewGreen.net.SpiceworksOutlookAddIn");
+                    if(key != null)
+                    {
+                        helpdeskEmail = (string)key.GetValue("HelpdeskEmail");
+                    }
+                    else
+                    {
+                        key = Registry.LocalMachine.OpenSubKey("Software\\Wow6432Node\\Microsoft\\Office\\Outlook\\Addins\\DrewGreen.net.SpiceworksOutlookAddIn");
+                        if (key != null)
+                        {
+                            helpdeskEmail = (string)key.GetValue("HelpdeskEmail");
+                        }
+                    }
+                    if(helpdeskEmail != null)
+                    {
+                        Properties.Settings.Default.HelpdeskEmail = helpdeskEmail;
+                        Properties.Settings.Default.Save();
+                    }
+                }
+                catch { }
+            }
         }
 
         void Inspectors_NewInspector(Microsoft.Office.Interop.Outlook.Inspector Inspector)
